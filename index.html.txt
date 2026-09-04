@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Today</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 28rem; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.5rem; }
+    label { display: block; margin: 0.75rem 0; font-size: 1.1rem; }
+    button { margin-top: 1rem; padding: 0.6rem 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Today</h1>
+  <p id="date"></p>
+
+  <label><input type="checkbox" id="h1"> Homework</label>
+  <label><input type="checkbox" id="h2"> Move 10 minutes</label>
+  <label><input type="checkbox" id="h3"> No phone in bed</label>
+
+  <button type="button" id="reset">Reset today</button>
+
+  <script>
+    const key = "today-" + new Date().toDateString();
+    document.getElementById("date").textContent = new Date().toDateString();
+
+    ["h1", "h2", "h3"].forEach((id) => {
+      const box = document.getElementById(id);
+      box.checked = localStorage.getItem(key + id) === "1";
+      box.addEventListener("change", () => {
+        localStorage.setItem(key + id, box.checked ? "1" : "0");
+      });
+    });
+
+    document.getElementById("reset").onclick = () => {
+      ["h1", "h2", "h3"].forEach((id) => {
+        document.getElementById(id).checked = false;
+        localStorage.removeItem(key + id);
+      });
+    };
+  </script>
+</body>
+</html>
